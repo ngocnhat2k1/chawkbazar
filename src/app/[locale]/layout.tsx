@@ -1,11 +1,12 @@
-import {notFound} from 'next/navigation';
-import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
-import {NextIntlClientProvider} from 'next-intl';
-import {ReactNode} from 'react';
-import {clsx} from 'clsx';
-import {Inter} from 'next/font/google';
+import {Header} from '@/components';
 import {routing} from '@/i18n/routing';
-import Navigation from '@/components/Navigation';
+import {clsx} from 'clsx';
+import {NextIntlClientProvider} from 'next-intl';
+import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
+import {Open_Sans} from 'next/font/google';
+import {notFound} from 'next/navigation';
+import {ReactNode} from 'react';
+import '../../style/global.scss';
 import './styles.css';
 
 type Props = {
@@ -13,7 +14,11 @@ type Props = {
   params: Promise<{locale: string}>;
 };
 
-const inter = Inter({subsets: ['latin']});
+const OpenSans = Open_Sans({
+  subsets: ['latin'],
+  fallback: ['sans-serif'],
+  display: 'swap'
+});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -45,10 +50,13 @@ export default async function LocaleLayout({children, params}: Props) {
   const messages = await getMessages();
 
   return (
-    <html className="h-full" lang={locale}>
-      <body className={clsx(inter.className, 'flex h-full flex-col')}>
+    <html className="h-full" lang={locale} dir="ltr">
+      <body
+        className={clsx(OpenSans.className, 'flex h-full flex-col font-sans')}
+      >
         <NextIntlClientProvider messages={messages}>
-          <Navigation />
+          {/* <Navigation /> */}
+          <Header />
           {children}
         </NextIntlClientProvider>
       </body>
