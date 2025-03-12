@@ -1,3 +1,4 @@
+import {BannerHome} from '@/components/home/BannerHome';
 import {useTranslations} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import {use} from 'react';
@@ -14,5 +15,9 @@ export default function IndexPage({params}: Props) {
 
   const t = useTranslations('IndexPage');
 
-  return <div>test</div>;
+  return (
+    <>
+      <BannerHome />
+    </>
+  );
 }
